@@ -1,5 +1,6 @@
-import { Text, Pressable } from 'react-native'
-import React from 'react'
+import {Text, Pressable, StyleSheet} from 'react-native';
+import React from 'react';
+import Animated, {useSharedValue, useAnimatedStyle, withTiming} from 'react-native-reanimated';
 
 interface UIButtonPropsI {
     children: string | React.JSX.Element,
@@ -11,27 +12,47 @@ interface UIButtonPropsI {
 }
 
 export default function UIButton(props: UIButtonPropsI) {
-    const { children, classes, textColor, clickHandler } = props;
+    const {children, classes, textColor, clickHandler} = props;
     const classNames = classes ? [...classes] : [];
 
+    const opacity = useSharedValue(1);
+
+    const handlePressIn = () => opacity.value = withTiming(0.2, {duration: 150})
+
+    const handlePressOut = () => opacity.value = withTiming(1, {duration: 150})
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        opacity: opacity.value,
+    }))
+
     return (
-        <Pressable
-            style={
-                ({ pressed }) => [{
-                    opacity: pressed ? 0.2 : 1,
-                },
-                classNames
-                ]
-            }
-            onPress={clickHandler ? () => clickHandler() : null}
+        <Animated.View
+            style={[animatedStyle, ...classNames]}
         >
-            <Text 
-                style={
-                    {
-                        color: textColor || "black" 
+            <Pressable
+                style={styles.button}
+                onPress={clickHandler ? () => clickHandler() : null}
+                onPressIn={handlePressIn}
+                onPressOut={handlePressOut}
+            >
+                <Text
+                    style={
+                        {
+                            color: textColor || "black"
+                        }
                     }
-                }
-            >{children}</Text>
-        </Pressable>
+                >{children}</Text>
+            </Pressable>
+        </Animated.View>
     )
 }
+
+const styles = StyleSheet.create({
+    button: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+})
