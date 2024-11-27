@@ -20,6 +20,12 @@ export default function Home(): React.JSX.Element {
         setItems((prev: string[]) => [...prev, itemText])
     }
 
+    const ListItem = (props: { text: string, key: number }) => (
+        <View key={props.key} style={styles.listItem}>
+            <Text>{props.text}</Text>
+        </View>
+    )
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Home Tab</Text>
@@ -29,9 +35,9 @@ export default function Home(): React.JSX.Element {
                 clickHandler={() => setModal(true)}
             >Add Item</UIButton>
             {
-                items.map((item: string, index: number) => {
-                    return <Text key={index}>{item}</Text>
-                })
+                items.map((item: string, index: number) =>
+                    <ListItem text={item} key={index} />
+                )
             }
             <Modal
                 animationType="slide"
@@ -47,9 +53,10 @@ export default function Home(): React.JSX.Element {
                         clickHandler={() => setModal(false)}
                     >Close modal</UIButton>
                     <View style={styles.modalForm}>
-                        <TextInput 
+                        <TextInput
                             value={itemText}
                             onChangeText={setItemText}
+                            style={styles.addInput}
                         />
                         <UIButton
                             classes={[styles.addButton]}
@@ -75,11 +82,29 @@ const styles = StyleSheet.create({
     },
     addButton: {
         backgroundColor: "black",
-        padding: 12,
+        paddingVertical: 12,
+        display: "flex",
+        alignItems: "center",
         marginTop: 24,
         borderRadius: 9,
+        width: 80
+    },
+    listItem: {
+        marginVertical: 6,
+        backgroundColor: "red",
+        width: 200
     },
     modalForm: {
-        marginTop: 72
+        marginTop: 72,
+        display: "flex",
+        alignItems: "center"
+    },
+    addInput: {
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: "black",
+        width: 300,
+        padding: 12,
+        borderRadius: 9
     }
 })
