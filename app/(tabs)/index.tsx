@@ -8,18 +8,25 @@ import {SharedClasses} from "@/constants/styles";
 import {useState} from "react";
 import UIButton from "@/components/ui/UIButton";
 import AddItemModal from "@/components/widgets/AddItemModal/AddItemModal";
+import {useStore} from "@/hooks/store/useStore";
+import Transactions from "@/components/widgets/Transactions/Transactions";
 
 export default function Home(): React.JSX.Element {
     const [modal, setModal] = useState(false);
 
+    const {items} = useStore();
+
     return (
         <View style={styles.container}>
-            <Text style={SharedClasses.titleText}>Home Tab</Text>
-            <UIButton
-                classes={[styles.addButton]}
-                textColor="white"
-                clickHandler={() => setModal(true)}
-            >Add Item</UIButton>
+            <View style={styles.header}>
+                <Text style={SharedClasses.titleText}>Home Tab</Text>
+                <UIButton
+                    classes={[styles.addButton]}
+                    textColor="white"
+                    clickHandler={() => setModal(true)}
+                >Add Item</UIButton>
+            </View>
+            {!!items.length && <Transactions items={items} />}
             <AddItemModal
                 modalState={modal}
                 modalStateHandler={() => setModal(false)}
@@ -31,9 +38,13 @@ export default function Home(): React.JSX.Element {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 72,
+        paddingVertical: 72,
         alignItems: "center",
+        justifyContent: "space-between",
         backgroundColor: "white"
+    },
+    header: {
+
     },
     addButton: {
         backgroundColor: "black",

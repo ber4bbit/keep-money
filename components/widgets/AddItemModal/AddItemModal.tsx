@@ -1,14 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import UIModal from "@/components/ui/UIModal";
 import UIInput from "@/components/ui/UIInput";
+import UIButton from "@/components/ui/UIButton";
 import {
     StyleSheet,
     Text,
     View
 } from "react-native";
 import {SharedClasses} from "@/constants/styles";
+import {useStore, IExpenseItem, EExpenseTypes, ECurrenciesVariants} from "@/hooks/store/useStore";
 
 export default function AddItemModal(props: { modalState: boolean, modalStateHandler: () => void }) {
+    const [inputValue, setInputValue] = useState('');
+
+    const inputHandler = (value: string) => setInputValue(value);
+
+    const {addItems} = useStore();
+
+    const submitItem = (value: string)=> {
+       const obj: IExpenseItem = {
+           title: value,
+           type: EExpenseTypes.Income,
+           currency: ECurrenciesVariants.Ruble,
+           amount: 200
+        }
+
+        const array = Array.of(obj)
+
+        addItems(array)
+    }
+
     return (
         <UIModal
             state={props.modalState}
@@ -19,7 +40,13 @@ export default function AddItemModal(props: { modalState: boolean, modalStateHan
                 <UIInput
                     placeholder='Enter a name'
                     classes={[styles.input]}
+                    changeHandler={inputHandler}
                 />
+                <UIButton
+                    classes={[styles.submitBtn]}
+                    textColor='white'
+                    clickHandler={() => submitItem(inputValue)}
+                >Submit</UIButton>
             </View>
         </UIModal>
     );
@@ -41,6 +68,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 9,
         marginTop: 24
+    },
+    submitBtn: {
+        backgroundColor: 'black',
+        width: 72,
+        height: 42,
+        borderRadius: 9
     }
 })
 
