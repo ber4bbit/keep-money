@@ -1,19 +1,11 @@
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import Animated, {useSharedValue, useAnimatedStyle, withTiming} from 'react-native-reanimated';
+import { UIInputProps } from './index.types';
 
-interface UIInputProps {
-    placeholder?: string,
-    textColor?: string,
-    classes?: {
-        [key: string]: any
-    }[],
-    inputRef?: any,
-    changeHandler?: (value: string) => void
-}
 
 export default function UIInput(props: UIInputProps) {
-    const {placeholder, textColor, classes, inputRef, changeHandler} = props;
+    const {placeholder, textColor, classes, inputRef, changeHandler, inputType} = props;
 
     return (
         <Animated.View
@@ -24,7 +16,8 @@ export default function UIInput(props: UIInputProps) {
                 placeholderTextColor='black'
                 style={styles.input}
                 ref={inputRef || null}
-                onChangeText={changeHandler ? (value: string) => changeHandler(value) : undefined}
+                keyboardType={inputType || 'default'}
+                onChangeText={changeHandler ? (value: string | number) => changeHandler(value) : undefined}
             />
         </Animated.View>
     );

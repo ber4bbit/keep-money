@@ -19,10 +19,14 @@ export interface IExpenseItem {
 
 interface IStoreState {
     items: IExpenseItem[],
-    addItems: (items: IExpenseItem[]) => void
+    addItemModal: boolean,
+    addItems: (items: IExpenseItem[]) => void,
+    setAddItemModal: (isOpen: boolean) => void
 }
 
 export const useStore = create<IStoreState>((set) => ({
     items: [],
-    addItems: (items: IExpenseItem[]) => set((state) => ({ items: [...state.items, ...items] }))
+    addItemModal: false,
+    addItems: (items: IExpenseItem[]) => set((state) => ({ items: [...state.items, ...items] })),
+    setAddItemModal: (isOpen: boolean) => set(() => ({addItemModal: isOpen}))
 }))

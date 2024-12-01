@@ -12,9 +12,7 @@ import {useStore} from "@/hooks/store/useStore";
 import Transactions from "@/components/widgets/Transactions/Transactions";
 
 export default function Home(): React.JSX.Element {
-    const [modal, setModal] = useState(false);
-
-    const {items} = useStore();
+    const {items, addItemModal, setAddItemModal} = useStore();
 
     return (
         <View style={styles.container}>
@@ -23,13 +21,13 @@ export default function Home(): React.JSX.Element {
                 <UIButton
                     classes={[styles.addButton]}
                     textColor="white"
-                    clickHandler={() => setModal(true)}
+                    clickHandler={() => setAddItemModal(true)}
                 >Add Item</UIButton>
             </View>
             {!!items.length && <Transactions items={items} />}
             <AddItemModal
-                modalState={modal}
-                modalStateHandler={() => setModal(false)}
+                modalState={addItemModal}
+                modalStateHandler={() => setAddItemModal(false)}
             />
         </View>
     )
