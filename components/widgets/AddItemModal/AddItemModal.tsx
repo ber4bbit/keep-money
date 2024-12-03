@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import UIModal from "@/components/ui/UIModal";
 import UIInput from "@/components/ui/UIInput";
 import UIButton from "@/components/ui/UIButton";
+import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, Text, View } from "react-native";
 import { SharedClasses } from "@/constants/styles";
 import {
@@ -16,14 +17,16 @@ export default function AddItemModal(props: {
     modalState: boolean;
     modalStateHandler: () => void;
 }) {
-    const [inputTitleValue, setInputTitleValue] = useState("");
-    const [inputAmountValue, setInputAmountValue] = useState(0);
+    const [inputTitleValue, setInputTitleValue] = useState<string>("");
+    const [inputAmountValue, setInputAmountValue] = useState<number>(0);
+    const [categoriesSelect, setCategoriesSelect] = useState<boolean>(false);
+    const [categoriesSelectValue, setCategoriesSelectValue] = useState(null);
 
     const inputTitleHandler = (value: string | number) => setInputTitleValue(value as string);
 
     const inputAmountHandler = (value: string | number) => setInputAmountValue(value as number);
 
-    const { addItems, setAddItemModal } = useStore();
+    const { addItems, setAddItemModal, categories } = useStore();
 
     const submitItem = () => {
         const obj: IExpenseItem = {
@@ -31,13 +34,15 @@ export default function AddItemModal(props: {
             type: EExpenseTypes.Income,
             currency: ECurrenciesVariants.Ruble,
             amount: inputAmountValue,
+            category: categoriesSelectValue!
         };
 
         const array = Array.of(obj);
 
         addItems(array);
 
-        setAddItemModal(false)
+        setCategoriesSelectValue(null);
+        setAddItemModal(false);
     };
 
     return (
@@ -57,6 +62,13 @@ export default function AddItemModal(props: {
                     classes={[styles.input]}
                     changeHandler={inputAmountHandler}
                     inputType={EUIInputTypes.Numeric}
+                />
+                <DropDownPicker
+                    items={categories}
+                    open={categoriesSelect}
+                    setOpen={() => setCategoriesSelect(!categoriesSelect)}
+                    value={categoriesSelectValue}
+                    setValue={(value) => setCategoriesSelectValue(value)}
                 />
                 <UIButton
                     classes={[styles.submitBtn]}

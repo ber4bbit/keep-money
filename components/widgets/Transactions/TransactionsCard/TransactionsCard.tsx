@@ -4,10 +4,19 @@ import {
     View,
     Text
 } from 'react-native';
-import {IExpenseItem, EExpenseTypes, ECurrenciesVariants} from '@/hooks/store/useStore';
+import {
+    IExpenseItem,
+    EExpenseTypes,
+    ECurrenciesVariants,
+    useStore
+} from '@/hooks/store/useStore';
 
 export default function TransactionsCard({item, isLast}: { item: IExpenseItem, isLast?: boolean }) {
-    const {title, amount, type, currency} = item
+    const {title, amount, type, category} = item;
+
+    const {categories, currency} = useStore();
+
+    const categoryValue = categories.find((item) => item.value === category)?.label
 
     const currencyToRender = currency === ECurrenciesVariants.Ruble ? '₽' : '$';
 
@@ -18,15 +27,20 @@ export default function TransactionsCard({item, isLast}: { item: IExpenseItem, i
                 isLast && styles.borderBottom
             ]}
         >
-            <Text>{title}</Text>
-            <View style={styles.amountInfo}>
-                <Text
-                    style={[type === EExpenseTypes.Income ? styles.income : styles.expense, styles.amountNumber]}
-                >
-                    {type === EExpenseTypes.Income ? '+ ' : '- '}
-                    {currencyToRender}
-                    {amount}
-                </Text>
+            <View style={styles.header}>
+                <Text style={styles.title}>{title}</Text>
+                <View style={styles.amountInfo}>
+                    <Text
+                        style={[type === EExpenseTypes.Income ? styles.income : styles.expense, styles.amountNumber]}
+                    >
+                        {type === EExpenseTypes.Income ? '+ ' : '- '}
+                        {amount}
+                        {currencyToRender}
+                    </Text>
+                </View>
+            </View>
+            <View style={styles.body}>
+                <Text style={styles.category}>{categoryValue}</Text>
             </View>
         </View>
     );
@@ -36,15 +50,30 @@ const styles = StyleSheet.create({
     card: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         paddingVertical: 24,
         borderBottomWidth: 1,
         borderStyle: 'solid',
-        borderColor: 'lightgray'
+        borderColor: 'lightgray',
+        gap: 12
     },
     amountInfo: {
 
+    },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 18
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+    },
+    body: {
+        display: 'flex',
+    },
+    category: {
+        color: 'gray',
     },
     amountNumber: {
         fontWeight: 'bold',
