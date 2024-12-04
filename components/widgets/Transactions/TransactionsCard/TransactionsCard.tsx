@@ -12,7 +12,7 @@ import {
 } from '@/hooks/store/useStore';
 
 export default function TransactionsCard({item, isLast}: { item: IExpenseItem, isLast?: boolean }) {
-    const {title, amount, type, category} = item;
+    const {title, amount, type, category, date} = item;
 
     const {categories, currency} = useStore();
 
@@ -41,6 +41,7 @@ export default function TransactionsCard({item, isLast}: { item: IExpenseItem, i
             </View>
             <View style={styles.body}>
                 <Text style={styles.category}>{categoryValue}</Text>
+                <Text>{date}</Text>
             </View>
         </View>
     );
@@ -71,6 +72,9 @@ const styles = StyleSheet.create({
     },
     body: {
         display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
     },
     category: {
         color: 'gray',

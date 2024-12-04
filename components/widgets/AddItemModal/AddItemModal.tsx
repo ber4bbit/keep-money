@@ -32,9 +32,9 @@ export default function AddItemModal(props: {
         const obj: IExpenseItem = {
             title: inputTitleValue,
             type: EExpenseTypes.Income,
-            currency: ECurrenciesVariants.Ruble,
             amount: inputAmountValue,
-            category: categoriesSelectValue!
+            category: categoriesSelectValue!,
+            date: new Date().toLocaleDateString()
         };
 
         const array = Array.of(obj);

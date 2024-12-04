@@ -1,4 +1,6 @@
 import {create} from 'zustand/react';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import React from 'react';
 
 export enum EExpenseTypes {
     Income = 'income',
@@ -14,12 +16,14 @@ export interface IExpenseItem {
     type: EExpenseTypes,
     title: string,
     amount: number,
-    category: string
+    category: string,
+    date: string,
 }
 
 export interface ICategoryItem {
     label: string,
-    value: string
+    value: string,
+    icon?: React.JSX.Element
 }
 
 interface IStoreState {
@@ -37,7 +41,7 @@ export const useStore = create<IStoreState>((set) => ({
     categories: [
         {
             label: 'Food',
-            value: 'food'
+            value: 'food',
         },
         {
             label: 'Transport',
