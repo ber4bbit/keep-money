@@ -15,13 +15,14 @@ export default function Transactions(props: ITransactionsProps) {
         <TransactionsCard
             item={item}
             key={index}
-            isLast={index === items.length - 1}
         />
     ))
 
     return (
         <View style={styles.container}>
-            {itemsToRender}
+            <View style={styles.list}>
+                {itemsToRender}
+            </View>
         </View>
     );
 }
@@ -29,8 +30,9 @@ export default function Transactions(props: ITransactionsProps) {
 const styles = StyleSheet.create({
     container: {
         width: '90%',
-        padding: 12,
-        borderRadius: 5,
-        boxShadow: '0 0 4px lightgray'
+    },
+    list: {
+        display: 'flex',
+        gap: 16
     }
 })

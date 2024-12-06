@@ -26,7 +26,7 @@ export default function Settings(): React.JSX.Element {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: '#F4F4F4',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         paddingVertical: 72,

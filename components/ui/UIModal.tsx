@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         paddingVertical: 56,
-        position: 'relative'
+        position: 'relative',
+        backgroundColor: '#F4F4F4'
     },
     modalClose: {
         position: 'absolute',

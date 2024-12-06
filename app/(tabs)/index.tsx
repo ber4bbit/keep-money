@@ -13,8 +13,8 @@ export default function Home(): React.JSX.Element {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={SharedClasses.titleText}>Home Tab</Text>
+            <View>
+                <Text style={SharedClasses.titleText}>Dashboard</Text>
             </View>
             {!!items.length && <Transactions items={items} />}
         </View>
@@ -25,12 +25,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 72,
-        paddingBottom: 124,
+        paddingBottom: 142,
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: "white"
-    },
-    header: {
-
+        backgroundColor: "#F4F4F4"
     }
 })

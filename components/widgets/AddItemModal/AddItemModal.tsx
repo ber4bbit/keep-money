@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UIModal from "@/components/ui/UIModal";
 import UIInput from "@/components/ui/UIInput";
 import UIButton from "@/components/ui/UIButton";
-import DropDownPicker from "react-native-dropdown-picker";
+import DropDownPicker, {ItemType} from "react-native-dropdown-picker";
 import { StyleSheet, Text, View } from "react-native";
 import { SharedClasses } from "@/constants/styles";
 import {
@@ -64,7 +64,7 @@ export default function AddItemModal(props: {
                     inputType={EUIInputTypes.Numeric}
                 />
                 <DropDownPicker
-                    items={categories}
+                    items={categories as ItemType<string>[]}
                     open={categoriesSelect}
                     setOpen={() => setCategoriesSelect(!categoriesSelect)}
                     value={categoriesSelectValue}
