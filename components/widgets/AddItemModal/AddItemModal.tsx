@@ -20,18 +20,20 @@ export default function AddItemModal(props: {
     const [inputTitleValue, setInputTitleValue] = useState<string>("");
     const [inputAmountValue, setInputAmountValue] = useState<number>(0);
     const [categoriesSelect, setCategoriesSelect] = useState<boolean>(false);
-    const [categoriesSelectValue, setCategoriesSelectValue] = useState(null);
+    const [amountTypeSelect, setAmountTypeSelect] = useState<boolean>(false);
+    const [amountTypeSelectValue, setAmountTypeSelectValue] = useState<string>('');
+    const [categoriesSelectValue, setCategoriesSelectValue] = useState<string>('');
 
     const inputTitleHandler = (value: string | number) => setInputTitleValue(value as string);
 
     const inputAmountHandler = (value: string | number) => setInputAmountValue(value as number);
 
-    const { addItems, setAddItemModal, categories } = useStore();
+    const { addItems, setAddItemModal, categories, amountTypes } = useStore();
 
     const submitItem = () => {
         const obj: IExpenseItem = {
             title: inputTitleValue,
-            type: EExpenseTypes.Income,
+            type: amountTypeSelectValue as EExpenseTypes.Expense | EExpenseTypes.Income,
             amount: inputAmountValue,
             category: categoriesSelectValue!,
             date: new Date().toLocaleDateString()
@@ -41,7 +43,8 @@ export default function AddItemModal(props: {
 
         addItems(array);
 
-        setCategoriesSelectValue(null);
+        setCategoriesSelectValue('');
+        setAmountTypeSelectValue('');
         setAddItemModal(false);
     };
 
@@ -51,7 +54,7 @@ export default function AddItemModal(props: {
             modalStateHandler={props.modalStateHandler}
         >
             <View style={styles.container}>
-                <Text style={SharedClasses.titleText}>Add Item</Text>
+                <Text style={SharedClasses.titleText}>Add Income or Expense</Text>
                 <UIInput
                     placeholder="Enter a name"
                     classes={[styles.input]}
@@ -69,6 +72,13 @@ export default function AddItemModal(props: {
                     setOpen={() => setCategoriesSelect(!categoriesSelect)}
                     value={categoriesSelectValue}
                     setValue={(value) => setCategoriesSelectValue(value)}
+                />
+                <DropDownPicker
+                    setValue={(value) => setAmountTypeSelectValue(value)}
+                    value={amountTypeSelectValue}
+                    items={amountTypes}
+                    open={amountTypeSelect}
+                    setOpen={() => setAmountTypeSelect(!amountTypeSelect)}
                 />
                 <UIButton
                     classes={[styles.submitBtn]}

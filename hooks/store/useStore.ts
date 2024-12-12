@@ -26,9 +26,12 @@ export interface ICategoryItem {
     icon?: React.JSX.Element
 }
 
+export type TAmountType = Omit<ICategoryItem, 'icon'>
+
 interface IStoreState {
     items: IExpenseItem[],
     categories: ICategoryItem[],
+    amountTypes: TAmountType[],
     addItemModal: boolean,
     currency: ECurrenciesVariants,
     addItems: (items: IExpenseItem[]) => void,
@@ -37,7 +40,64 @@ interface IStoreState {
 }
 
 export const useStore = create<IStoreState>((set) => ({
-    items: [],
+    items: [
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        },
+        {
+            type: EExpenseTypes.Income,
+            title: 'Salary',
+            amount: 50000,
+            category: 'Transport',
+            date: '09.12.2024'
+        }
+    ],
     categories: [
         {
             label: 'Food',
@@ -50,6 +110,16 @@ export const useStore = create<IStoreState>((set) => ({
         {
             label: 'Salary',
             value: 'salary'
+        }
+    ],
+    amountTypes: [
+        {
+            label: 'Income',
+            value: 'income'
+        },
+        {
+            label: 'Expense',
+            value: 'expense'
         }
     ],
     addItemModal: false,
